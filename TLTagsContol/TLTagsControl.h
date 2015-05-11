@@ -29,12 +29,17 @@ typedef NS_ENUM(NSUInteger, TLTagsControlMode) {
 @property (nonatomic, strong) UIColor *tagsDeleteButtonColor;
 @property (nonatomic, strong) NSString *tagPlaceholder;
 @property (nonatomic) TLTagsControlMode mode;
+@property (nonatomic, strong) NSNumber *maxTags;
 
 @property (assign, nonatomic) id<TLTagsControlDelegate> tapDelegate;
 
-- (id)initWithFrame:(CGRect)frame andTags:(NSArray *)tags withTagsControlMode:(TLTagsControlMode)mode;
+- (id)initWithFrame:(CGRect)frame andTags:(NSArray *)tags withTagsControlMode:(TLTagsControlMode)mode maxTags:(NSNumber *)maxTags;
 
 - (void)addTag:(NSString *)tag;
 - (void)reloadTagSubviews;
+
+/* Remove tags with keyboard */
+/* only allow x tags */
+/* allow all characters in inputfield */
 
 @end

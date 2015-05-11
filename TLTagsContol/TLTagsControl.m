@@ -7,13 +7,14 @@
 //
 
 #import "TLTagsControl.h"
+#import "DEDeleteTextField.h"
 
-@interface TLTagsControl () <UITextFieldDelegate, UIGestureRecognizerDelegate>
+@interface TLTagsControl () <DEDeleteTextFieldDelegate,UITextFieldDelegate, UIGestureRecognizerDelegate>
 
 @end
 
 @implementation TLTagsControl {
-    UITextField                 *tagInputField_;
+    DEDeleteTextField           *tagInputField_;
     NSMutableArray              *tagSubviews_;
 }
 
@@ -39,13 +40,14 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame andTags:(NSArray *)tags withTagsControlMode:(TLTagsControlMode)mode {
+- (id)initWithFrame:(CGRect)frame andTags:(NSArray *)tags withTagsControlMode:(TLTagsControlMode)mode maxTags:(NSNumber *)maxTags {
     self = [super initWithFrame:frame];
     
     if (self != nil) {
         [self commonInit];
         [self setTags:[[NSMutableArray alloc]initWithArray:tags]];
         [self setMode:mode];
+        [self setMaxTags:maxTags];
     }
     
     return self;
@@ -73,7 +75,8 @@
     
     tagSubviews_ = [NSMutableArray array];
     
-    tagInputField_ = [[UITextField alloc] initWithFrame:self.frame];
+    tagInputField_ = [[DEDeleteTextField alloc] initWithFrame:self.frame];
+    tagInputField_.deDelegate = self;
     tagInputField_.layer.cornerRadius = 5;
     tagInputField_.layer.borderColor = [UIColor lightGrayColor].CGColor;
     tagInputField_.backgroundColor = [UIColor whiteColor];
@@ -156,6 +159,9 @@
 }
 
 - (void)addTag:(NSString *)tag {
+    if(_maxTags != nil && _tags.count >= _maxTags.integerValue) {
+        return;
+    }
     for (NSString *oldTag in _tags) {
         if ([oldTag isEqualToString:tag]) {
             return;
@@ -346,6 +352,16 @@
         return YES;
     }
 }
+
+
+#pragma mark DEDeleteTextFieldDelegate
+-(void)textFieldWillDelete {
+    if(tagInputField_.text.length == 0 && self.tags.count > 0) {
+        [self.tags removeLastObject];
+        [self reloadTagSubviews];
+    }
+}
+
 
 #pragma mark - other
 
