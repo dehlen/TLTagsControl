@@ -322,7 +322,7 @@
     NSString *text = textField.text;
     
     
-    if (string.length == 1 && [string rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location != NSNotFound) {
+    if (string.length == 1 && [string rangeOfCharacterFromSet:[NSCharacterSet illegalCharacterSet]].location != NSNotFound) {
         return NO;
     } else {
         if (!text || [text isEqualToString:@""]) {
@@ -336,11 +336,11 @@
                                                                       withString:string];
         }
         
-        NSArray *components = [resultingString componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+        NSArray *components = [resultingString componentsSeparatedByCharactersInSet:[NSCharacterSet illegalCharacterSet]];
         
         if (components.count > 2) {
             for (NSString *component in components) {
-                if (component.length > 0 && [component rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location == NSNotFound) {
+                if (component.length > 0 && [component rangeOfCharacterFromSet:[NSCharacterSet illegalCharacterSet]].location == NSNotFound) {
                     [self addTag:component];
                     break;
                 }
