@@ -38,8 +38,4 @@ typedef NS_ENUM(NSUInteger, TLTagsControlMode) {
 - (void)addTag:(NSString *)tag;
 - (void)reloadTagSubviews;
 
-/* Remove tags with keyboard */
-/* only allow x tags */
-/* allow all characters in inputfield */
-
 @end
